@@ -5,6 +5,16 @@ import { Route} from 'react-router';
 import createHistory from 'history/createBrowserHistory';
 import {ConnectedRouter, routerReducer, push, routerMiddleware} from 'react-router-redux'
 
+import 'style/main.scss';
+import S from './style.scss';
+import 'semantic-ui-css/semantic.min.css';
+
+import PhotoGallery from 'photoGallery/PhotoGallery';
+import ToolBox from 'toolBox/ToolBox';
+import Board from 'drawingBoard/Board';
+import LayerManager from 'layerManager/LayerManager';
+
+
 function r1 (prevState, action) {
     return 5;
 } 
@@ -31,7 +41,29 @@ export default class App extends Component {
 
     render () {
         return (
-            <div>react</div>
+            <div className={S.gridWrap}>
+                <div className={S.topRow}>
+
+                    <div className={S.logo}>
+                        <div className={S.imgWrap}>
+                            <a><img src={require('img/logo.png')} alt=''></img></a>
+                        </div>
+                    </div>
+
+                    <div className={S.gallery}>
+                        <PhotoGallery />
+                    </div>
+                </div>
+                <div className={S.bottomRow}>
+                    <div className={S.tool}>
+                        <ToolBox />
+                    </div>
+                    <div className={S.board}>
+                        <Board />
+                        <LayerManager />
+                    </div>
+                </div>
+            </div>
         )
     }
 }
