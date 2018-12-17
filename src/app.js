@@ -1,79 +1,66 @@
-import {createStore, applyMiddleware, combineReducers} from 'redux';
-import thunk from 'redux-thunk';
-import {Provider} from 'react-redux';
-import { Route} from 'react-router';
-import createHistory from 'history/createBrowserHistory';
-import {ConnectedRouter, routerReducer, push, routerMiddleware} from 'react-router-redux'
+
+import {Provider, connect} from 'react-redux';
+import {bindActionCreators, combineReducers} from 'redux';
+import { Route } from 'react-router';
+import { ConnectedRouter } from 'react-router-redux';
+
+import configureStore, {history} from 'reduxes/configureStore';
+
+import Board from 'drawingBoard/Board';
+import PhotoGallery from 'photoGallery/PhotoGallery';
+import ToolBox from 'toolBox/ToolBox';
+import LayerManager from 'layerManager/LayerManager';
+
 
 import 'style/main.scss';
 import S from './style.scss';
 import 'semantic-ui-css/semantic.min.css';
+let store = configureStore();
 
-import PhotoGallery from 'photoGallery/PhotoGallery';
-import ToolBox from 'toolBox/ToolBox';
-import Board from 'drawingBoard/Board';
-import LayerManager from 'layerManager/LayerManager';
+class App extends Component{
 
-
-function r1 (prevState, action) {
-    return 5;
-} 
-
-function r2 (prevState, action) {
-    return 6;
-}
-
-const rootReducer = combineReducers({
-    r1, r2,
-    router: routerReducer
-});
-
-const history = createHistory();
-
-const routerML = routerMiddleware(history);
-
-const store = createStore(rootReducer, applyMiddleware(thunk, routerML));
-
-export default class App extends Component {
-    constructor (props) {
+    constructor(props){
         super(props);
     }
 
-    render () {
+    render(){
         return (
-            <div className={S.gridWrap}>
+            <div className={`${S.gridWrap}`}>
                 <div className={S.topRow}>
-
                     <div className={S.logo}>
                         <div className={S.imgWrap}>
-                            <a><img src={require('img/logo.png')} alt=''></img></a>
+                            <a href="http://art.microbu.com"><img src={require("img/logo.png")} alt="miaov.com"/></a>
                         </div>
                     </div>
-
                     <div className={S.gallery}>
-                        <PhotoGallery />
+                        <PhotoGallery/>
                     </div>
                 </div>
                 <div className={S.bottomRow}>
                     <div className={S.tool}>
-                        <ToolBox />
+                        <ToolBox/>
                     </div>
                     <div className={S.board}>
-                        <Board />
+                        <Board/>
                         <LayerManager />
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
+
+
+
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>
-            <App />
+
+            <Route path="/" component={App}/>
+
         </ConnectedRouter>
-    </Provider>,
+
+    </Provider>
+    ,
     document.getElementById('root')
 );
-
-
