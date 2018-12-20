@@ -16,26 +16,29 @@ class PhotoGallery extends Component {
     }
 
     render () {
-        let {imgData} = this.props;
+        let {imgData, curtPhoto, chooseImage, buttonImage} = this.props;
 
-        console.log(imgData)
+        console.log(chooseImage)
+        console.log(curtPhoto)
 
         return (
             <Container textAlign="center" className={S.container}>
-                <Button basic icon="chevron left" size="massive" className={S.button} />
+                <Button basic icon="chevron left" size="massive" className={S.button} onClick={e => {buttonImage(0)}}/>
                 <List horizontal className={S.listWrap}>
                     {
                         imgData.map(photo => (
                             <Img 
                                 {...{
                                     key: photo.id,
-                                    photo: photo
+                                    photo: photo,
+                                    isActive: curtPhoto.id === photo.id,
+                                    onClick: () => {chooseImage(photo)}
                                 }}
                             />
                         ))  
                     }
                 </List>
-                <Button basic icon="chevron right" size="massive" className={S.button} />
+                <Button basic icon="chevron right" size="massive" className={S.button} onClick={e => {buttonImage(1)}}/>
             </Container>
         )
     }
@@ -43,9 +46,10 @@ class PhotoGallery extends Component {
 
 export default connect(
     state => {
-        let {photos: {imgData}} = state;
+        let {photos: {imgData, curtPhoto}} = state;
         return {
-            imgData
+            imgData,
+            curtPhoto
         }
     },
     dispatch => bindActionCreators({...actions}, dispatch)

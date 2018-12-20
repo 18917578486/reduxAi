@@ -1,4 +1,4 @@
-import {createStore, applyMiddleware, combineReducers} from 'redux';
+import {createStore, applyMiddleware, combineReducers, compose} from 'redux';
 import thunk from 'redux-thunk';
 import createHistory from 'history/createBrowserHistory';
 import {ConnectedRouter, routerReducer, routerMiddleware} from 'react-router-redux'
@@ -16,8 +16,21 @@ let rootReducer = combineReducers({
 });
 
 export default function configureStore () {
-    return createStore(
-        rootReducer,
-        applyMiddleware(thunk, routerML)
-    )
+
+    if (process.env.NODE_ENV === 'production') {
+        return createStore(
+            rootReducer,
+            compose(
+                applyMiddleware(thunk, routerML)
+            )
+        )
+    } else {
+        return createStore(
+            rootReducer,
+            compose(
+                applyMiddleware(thunk, routerML),
+                window.devToolsExtension ? window.devToolsExtension() : ''
+            )
+        )
+    }
 }
