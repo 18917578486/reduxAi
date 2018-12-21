@@ -18,9 +18,6 @@ class PhotoGallery extends Component {
     render () {
         let {imgData, curtPhoto, chooseImage, buttonImage} = this.props;
 
-        console.log(chooseImage)
-        console.log(curtPhoto)
-
         return (
             <Container textAlign="center" className={S.container}>
                 <Button basic icon="chevron left" size="massive" className={S.button} onClick={e => {buttonImage(0)}}/>
