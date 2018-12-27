@@ -1,3 +1,4 @@
+import {drawImage, addLayer} from '../drawingBoard/BoardRedux'
 
 let initState = {
     imgData: [],
@@ -29,7 +30,7 @@ export const loadImage = () => (dispatch, getState) => {
         let {photos: {curtPhoto}} = getState();
 
         if (!curtPhoto.id) {
-            dispatch({type: CHOOSE_ACTION, photo: imgData[0] })
+            dispatch(chooseImage(imgData[0]))
         }
     }, 1000) 
 }
@@ -39,6 +40,8 @@ export const chooseImage = (photo) => (dispatch, getState) => {
         type: CHOOSE_ACTION,
         photo
     })
+
+    dispatch(drawImage(photo));
 }
 
 export const buttonImage = (type) => (dispatch, getState) => {
